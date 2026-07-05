@@ -3,6 +3,7 @@ import { useNavigation, type NavigationProp } from "@react-navigation/native";
 import { colors } from "../../../shared/theme";
 import { GradientHeader } from "../../../shared/components";
 import { useCatalog } from "../../catalog";
+import { usePeriods } from "../../periods";
 import { ExpenseForm } from "../components/ExpenseForm";
 import { addManualTransaction } from "../api/expenses";
 import { useExpenses } from "../hooks/useExpenses";
@@ -14,6 +15,7 @@ export function RegisterScreen() {
   const navigation = useNavigation<Nav>();
   const { load } = useExpenses();
   const { tipos, personas } = useCatalog();
+  const { activePeriodo } = usePeriods();
 
   return (
     <View style={styles.screen}>
@@ -28,7 +30,13 @@ export function RegisterScreen() {
           tipos={tipos.map((t) => t.nombre)}
           personas={personas.map((p) => p.nombre)}
           onSubmit={async ({ monto, metodo, descripcion, persona }) => {
-            await addManualTransaction({ monto, metodo, descripcion, persona });
+            await addManualTransaction({
+              monto,
+              metodo,
+              descripcion,
+              persona,
+              periodoId: activePeriodo?.id ?? null,
+            });
             await load();
             Alert.alert("Guardado", "Tu gasto se registró.");
             navigation.navigate("Dashboard");

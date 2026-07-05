@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { colors } from "../shared/theme";
+import { ConfirmProvider } from "../shared/components";
 import { AuthProvider } from "./providers/AuthProvider";
 import { RootNavigator } from "./navigation/RootNavigator";
 
@@ -22,10 +23,12 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <NavigationContainer theme={navTheme}>
-          <StatusBar style="dark" />
-          <RootNavigator />
-        </NavigationContainer>
+        <ConfirmProvider>
+          <NavigationContainer theme={navTheme}>
+            <StatusBar style="dark" />
+            <RootNavigator />
+          </NavigationContainer>
+        </ConfirmProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

@@ -8,6 +8,7 @@ export interface Transaction {
   comercio: string | null;
   fecha: string;
   card_id: string | null;
+  periodo_id: string | null;
 }
 
 // Tipos de pago por defecto (fallback cuando el catálogo aún está vacío).

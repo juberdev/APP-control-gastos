@@ -6,7 +6,7 @@ import type { Transaction } from "../types";
 export async function fetchTransactions(limit = 50): Promise<Transaction[]> {
   const { data, error } = await supabase
     .from("transactions")
-    .select("id, origen, metodo, persona, monto, moneda, comercio, fecha, card_id")
+    .select("id, origen, metodo, persona, monto, moneda, comercio, fecha, card_id, periodo_id")
     .order("fecha", { ascending: false })
     .limit(limit);
   if (error) throw error;
@@ -19,6 +19,7 @@ export async function addManualTransaction(input: {
   metodo: string;
   descripcion?: string;
   persona?: string;
+  periodoId?: string | null;
   moneda?: string;
 }): Promise<void> {
   const { data: { user } } = await supabase.auth.getUser();
@@ -28,6 +29,7 @@ export async function addManualTransaction(input: {
     origen: input.metodo === "Yape" ? "yape" : "manual",
     metodo: input.metodo,
     persona: input.persona?.trim() || null,
+    periodo_id: input.periodoId ?? null,
     monto: input.monto,
     moneda: input.moneda ?? "PEN",
     comercio: input.descripcion?.trim() || null,

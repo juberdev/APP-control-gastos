@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { colors } from "../../shared/theme";
 import { LoginScreen, SignupScreen } from "../../features/auth";
 import { CatalogProvider } from "../../features/catalog";
+import { PeriodsProvider } from "../../features/periods";
 import { EditExpenseScreen, ExpensesProvider } from "../../features/expenses";
 import { useAuth } from "../providers/AuthProvider";
 import { TabNavigator } from "./TabNavigator";
@@ -36,6 +37,7 @@ export function RootNavigator() {
   return (
     <ExpensesProvider>
       <CatalogProvider>
+        <PeriodsProvider>
         <Stack.Navigator>
           <Stack.Screen name="Main" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen
@@ -49,6 +51,7 @@ export function RootNavigator() {
             }}
           />
         </Stack.Navigator>
+        </PeriodsProvider>
       </CatalogProvider>
     </ExpensesProvider>
   );

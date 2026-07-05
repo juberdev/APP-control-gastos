@@ -1,16 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { supabase } from "../../../services/supabase";
 import { GradientHeader } from "../../../shared/components";
-import { useExpenses } from "../hooks/useExpenses";
 
-// Cabecera del dashboard: total del periodo + salir, sobre el degradado morado.
-export function PeriodHeader() {
-  const { total } = useExpenses();
+// Cabecera del dashboard: total (ya filtrado) + rango del periodo + salir.
+export function PeriodHeader({ total, subtitle }: { total: number; subtitle?: string }) {
   return (
     <GradientHeader>
       <View style={styles.row}>
         <View>
-          <Text style={styles.label}>Gastado este periodo (S/)</Text>
+          <Text style={styles.label}>Gastado {subtitle ? `· ${subtitle}` : "este periodo"}</Text>
           <Text style={styles.total}>S/ {total.toFixed(2)}</Text>
         </View>
         <TouchableOpacity onPress={() => supabase.auth.signOut()}>
